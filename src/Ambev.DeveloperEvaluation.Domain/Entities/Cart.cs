@@ -10,6 +10,5 @@ public class Cart : BaseEntity
     public virtual ICollection<Product> Products { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    [InverseProperty(nameof(User.Id))]
-    public virtual User User { get; set; }
+    public virtual User? User { get; set; }
 }

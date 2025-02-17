@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
-public class SaleProduct
+public class SaleProduct : BaseEntity
 {
     public Guid ProductId { get; set; }
     public Guid SaleId { get; set; }
@@ -13,10 +13,8 @@ public class SaleProduct
     public decimal TotalAmount { get; set; }
 
     [ForeignKey(nameof(ProductId))]
-    [InverseProperty(nameof(Product.Id))]
     public virtual Product Product { get; set; }
 
-    [ForeignKey(nameof(Sale))]
-    [InverseProperty(nameof(Sale.Id))]
+    [ForeignKey(nameof(SaleId))]
     public virtual Sale Sale { get; set; }
 }
