@@ -2166,19 +2166,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\marcio.gomes\\.nuget\\packages\\": {}
+    "C:\\Users\\mhmoc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\tmp\\abi-gth-omnia-developer-evaluation\\template\\backend\\src\\Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj",
+      "projectUniqueName": "C:\\git\\Ambev\\src\\Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj",
       "projectName": "Ambev.DeveloperEvaluation.Domain",
-      "projectPath": "D:\\tmp\\abi-gth-omnia-developer-evaluation\\template\\backend\\src\\Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj",
-      "packagesPath": "C:\\Users\\marcio.gomes\\.nuget\\packages\\",
-      "outputPath": "D:\\tmp\\abi-gth-omnia-developer-evaluation\\template\\backend\\src\\Ambev.DeveloperEvaluation.Domain\\obj\\",
+      "projectPath": "C:\\git\\Ambev\\src\\Ambev.DeveloperEvaluation.Domain\\Ambev.DeveloperEvaluation.Domain.csproj",
+      "packagesPath": "C:\\Users\\mhmoc\\.nuget\\packages\\",
+      "outputPath": "C:\\git\\Ambev\\src\\Ambev.DeveloperEvaluation.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\marcio.gomes\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mhmoc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2193,8 +2193,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\tmp\\abi-gth-omnia-developer-evaluation\\template\\backend\\src\\Ambev.DeveloperEvaluation.Common\\Ambev.DeveloperEvaluation.Common.csproj": {
-              "projectPath": "D:\\tmp\\abi-gth-omnia-developer-evaluation\\template\\backend\\src\\Ambev.DeveloperEvaluation.Common\\Ambev.DeveloperEvaluation.Common.csproj"
+            "C:\\git\\Ambev\\src\\Ambev.DeveloperEvaluation.Common\\Ambev.DeveloperEvaluation.Common.csproj": {
+              "projectPath": "C:\\git\\Ambev\\src\\Ambev.DeveloperEvaluation.Common\\Ambev.DeveloperEvaluation.Common.csproj"
             }
           }
         }
@@ -2235,7 +2235,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
