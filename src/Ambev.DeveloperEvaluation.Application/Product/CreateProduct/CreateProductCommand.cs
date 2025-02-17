@@ -1,8 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Common;
+﻿using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Domain.Entities;
+namespace Ambev.DeveloperEvaluation.Application.Product.CreateProduct;
 
-public class Product : BaseEntity
+public class CreateProductCommand : IRequest<CreateProductResult>
 {
     public string Title { get; set; } = string.Empty;
     public decimal Price { get; set; }
@@ -10,5 +10,5 @@ public class Product : BaseEntity
     public string Category { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
     public int Quantity { get; set; }
-    public virtual Rating? Rating { get; set; }
+    public virtual CreateRatingCommand? Rating { get; set; }
 }
