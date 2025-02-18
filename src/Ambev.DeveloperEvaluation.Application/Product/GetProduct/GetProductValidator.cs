@@ -2,7 +2,7 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Product.GetProduct;
 
-internal class GetProductValidator: AbstractValidator<GetProductCommand>
+internal class GetProductValidator : AbstractValidator<GetProductCommand>
 {
     public GetProductValidator()
     {

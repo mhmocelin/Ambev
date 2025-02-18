@@ -42,7 +42,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             }
 
             await _context.SaveChangesAsync(cancellationToken);
-            return product;
+            return entity;
         }
 
         public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default)

@@ -3,22 +3,22 @@ using AutoMapper;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 
-namespace Ambev.DeveloperEvaluation.Application.Product.PutProduct;
+namespace Ambev.DeveloperEvaluation.Application.Product.DeleteProduct;
 
-public  class PutProductHandler : IRequestHandler<PutProductCommand, PutProductResult>
+public  class DeleteProductHandler : IRequestHandler<DeleteProductCommand, DeleteProductResult>
 {
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
 
-    public PutProductHandler(IProductRepository productRepository, IMapper mapper)
+    public DeleteProductHandler(IProductRepository productRepository, IMapper mapper)
     {
         _productRepository = productRepository;
         _mapper = mapper;
     }
 
-    public async Task<PutProductResult> Handle(PutProductCommand command, CancellationToken cancellationToken)
+    public async Task<DeleteProductResult> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
     {
-        var validator = new PutProductValidator();
+        var validator = new DeleteProductValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
         if (!validationResult.IsValid)
@@ -30,7 +30,7 @@ public  class PutProductHandler : IRequestHandler<PutProductCommand, PutProductR
 
         await _productRepository.DeleteByIdAsync(command.Id, cancellationToken);
 
-        var result = new PutProductResult() { message = "successful deleted" };
+        var result = new DeleteProductResult() { message = "successful deleted" };
         return result;
     }
 }
