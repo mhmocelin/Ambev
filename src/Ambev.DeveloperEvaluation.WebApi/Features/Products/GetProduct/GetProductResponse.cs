@@ -1,13 +1,8 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Products.Common;
 
-public class GetProductResponse
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+
+public class GetProductResponse : BaseProduct
 {
     public Guid Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public decimal Price { get; set; }
-    public string Description { get; set; } = string.Empty;
-    public string Category { get; set; } = string.Empty;
-    public string Image { get; set; } = string.Empty;
-    public int Quantity { get; set; }
-    public virtual GetRatingResponse Rating { get; set; }
 }

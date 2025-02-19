@@ -1,6 +1,8 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.PutProduct
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Products.Common;
+
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.PutProduct
 {
-    public class PutProductResponse
+    public class PutProductResponse : BaseProduct
     {
     }
 }
