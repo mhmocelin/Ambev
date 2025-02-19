@@ -22,7 +22,7 @@ public class GetProductsHandler : IRequestHandler<GetProductsCommand, GetProduct
         if (products == null) 
             throw new KeyNotFoundException($"no registered product");
 
-        var result = _mapper.Map<GetProductsResult>(products);
+        var result = _mapper.Map<GetProductsResult>(products.AsQueryable());
         return result;
     }
 }

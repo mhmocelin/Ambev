@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Product.GetProduct;
 
-public class GetProductsByCategoryHandler : IRequestHandler<GetProductsByCategoryCommand, GetProductsByCategoryResult>
+public class GetProductsByCategoryHandler : IRequestHandler<GetProductsByCategoryCommand, IQueryable<GetProductsByCategoryResult>>
 {
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class GetProductsByCategoryHandler : IRequestHandler<GetProductsByCategor
         _mapper = mapper;
     }
 
-    public async Task<GetProductsByCategoryResult> Handle(GetProductsByCategoryCommand command, CancellationToken cancellationToken)
+    public async Task<IQueryable<GetProductsByCategoryResult>> Handle(GetProductsByCategoryCommand command, CancellationToken cancellationToken)
     {
         var validator = new GetProductsByCategoryValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
@@ -29,7 +29,7 @@ public class GetProductsByCategoryHandler : IRequestHandler<GetProductsByCategor
         if (product == null) 
             throw new KeyNotFoundException($"no product in the category");
 
-        var result = _mapper.Map<GetProductsByCategoryResult>(product);
+        var result = _mapper.Map<IQueryable<GetProductsByCategoryResult>>(product.AsQueryable());
         return result;
     }
 }

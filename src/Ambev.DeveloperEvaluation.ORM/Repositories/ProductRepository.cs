@@ -18,17 +18,22 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
         public async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-            => await _context.Products.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+            => await _context.Products
+                        .Include(c => c.Rating)
+                        .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
 
         public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken)
-            => await _context.Products.ToListAsync();
+            => await _context.Products.Include(c => c.Rating).ToListAsync();
 
         public async Task<IEnumerable<Product>> GetByCategoryAsync(string category, CancellationToken cancellationToken)
-            => await _context.Products.Where(p => p.Category == category).ToListAsync();
+            => await _context.Products
+                .Include(c => c.Rating)
+                .Where(p => p.Category == category)
+                .ToListAsync();
 
         public async Task<Product> UpdateAsync(Product product, CancellationToken cancellationToken)
         {
-            var entity = await _context.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+            var entity = await _context.Products.Include(c => c.Rating).FirstOrDefaultAsync(p => p.Id == product.Id);
 
             if (entity != null)
             {

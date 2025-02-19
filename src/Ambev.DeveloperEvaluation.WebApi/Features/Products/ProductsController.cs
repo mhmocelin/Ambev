@@ -150,7 +150,7 @@ public class ProductsController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetProducts([FromQuery] int page, int size, [FromRoute] string category, CancellationToken cancellationToken)
     {
-        var command = new GetProductsCommand();
+        var command = new GetProductsByCategoryCommand(category);
         var response = await _mediator.Send(command, cancellationToken);
         var result = _mapper.Map<IQueryable<GetProductsResponse>>(response);
 
