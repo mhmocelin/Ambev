@@ -18,11 +18,11 @@ public class GetProductsHandler : IRequestHandler<GetProductsCommand, GetProduct
 
     public async Task<GetProductsResult> Handle(GetProductsCommand command, CancellationToken cancellationToken)
     {
-        var product = await _productRepository.GetAllAsync(cancellationToken);
-        if (product == null) 
+        var products = await _productRepository.GetAllAsync(cancellationToken);
+        if (products == null) 
             throw new KeyNotFoundException($"no registered product");
 
-        var result = _mapper.Map<GetProductsResult>(product);
+        var result = _mapper.Map<GetProductsResult>(products);
         return result;
     }
 }

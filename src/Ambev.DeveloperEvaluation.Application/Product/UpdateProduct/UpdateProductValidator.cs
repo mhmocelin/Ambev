@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Product.CreateProduct;
+namespace Ambev.DeveloperEvaluation.Application.Product.UpdateProduct;
 
-public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
 {
-    public CreateProductCommandValidator()
+    public UpdateProductValidator()
     {
         RuleFor(p => p.Price).NotEmpty();
         RuleFor(p => p.Title).NotEmpty().Length(1, 50);

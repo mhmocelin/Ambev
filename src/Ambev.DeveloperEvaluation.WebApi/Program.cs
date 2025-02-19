@@ -8,6 +8,7 @@ using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Rebus.Config;
 using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi;
@@ -69,6 +70,15 @@ public class Program
             app.UseBasicHealthChecks();
 
             app.MapControllers();
+
+            builder.Services.AddRebus(configure =>
+            {
+                var configurer = configure
+                    .Logging(l => l.ColoredConsole())
+                    .Transport(t => t.UseRabbitMqAsOneWayClient("amqp://guest:guest@localhost:15672"));
+
+                return configurer;
+            });
 
             app.Run();
         }
