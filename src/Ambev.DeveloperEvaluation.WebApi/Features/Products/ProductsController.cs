@@ -1,16 +1,16 @@
-﻿using Ambev.DeveloperEvaluation.Application.Product.CreateProduct;
-using Ambev.DeveloperEvaluation.Application.Product.DeleteProduct;
-using Ambev.DeveloperEvaluation.WebApi.Common;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
+﻿using MediatR;
 using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.Application.Product.GetProducts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProducts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.PutProduct;
+using Ambev.DeveloperEvaluation.Application.Product.CreateProduct;
+using Ambev.DeveloperEvaluation.Application.Product.DeleteProduct;
 using Ambev.DeveloperEvaluation.Application.Product.UpdateProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.PutProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProducts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
@@ -148,7 +148,7 @@ public class ProductsController : BaseController
     [ProducesResponseType(typeof(PaginatedResponse<GetProductsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetProducts([FromQuery] int page, int size, [FromRoute] string category, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetProductsByCategory([FromQuery] int page, int size, [FromRoute] string category, CancellationToken cancellationToken)
     {
         var command = new GetProductsByCategoryCommand(category);
         var response = await _mediator.Send(command, cancellationToken);
