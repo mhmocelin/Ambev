@@ -7,5 +7,5 @@ public class BaseProduct
     public string Description { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
-    public virtual BaseRating Rating { get; set; }
+    public BaseRating Rating { get; set; }
 }

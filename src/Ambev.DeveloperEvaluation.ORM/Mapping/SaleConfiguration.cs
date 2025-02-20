@@ -13,9 +13,9 @@ public class SaleConfiguration: IEntityTypeConfiguration<Sale>
         builder.Property(u => u.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
 
         builder.Property(u => u.Date).IsRequired();
-        builder.Property(u => u.Customer).IsRequired().HasMaxLength(200);
+        builder.Property(u => u.UserId).IsRequired();
         builder.Property(u => u.TotalSaleAmount).IsRequired();
         builder.Property(u => u.Branch).IsRequired();
-        builder.Property(u => u.SaleNumber).IsRequired();
+        builder.Property(u => u.SaleNumber).HasDefaultValueSql("NEXT VALUE FOR SaleSequence");
     }
 }
