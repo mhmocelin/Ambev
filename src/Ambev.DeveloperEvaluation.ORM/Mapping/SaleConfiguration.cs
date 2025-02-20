@@ -16,6 +16,6 @@ public class SaleConfiguration: IEntityTypeConfiguration<Sale>
         builder.Property(u => u.UserId).IsRequired();
         builder.Property(u => u.TotalSaleAmount).IsRequired();
         builder.Property(u => u.Branch).IsRequired();
-        builder.Property(u => u.SaleNumber).HasDefaultValueSql("NEXT VALUE FOR SaleSequence");
+        builder.Property(u => u.SaleNumber);
     }
 }

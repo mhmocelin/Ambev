@@ -76,9 +76,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid?>("CartId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("text");
@@ -102,8 +99,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CartId");
 
                     b.ToTable("product", (string)null);
                 });
@@ -159,9 +154,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("SaleNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValueSql("NEXT VALUE FOR SaleSequence");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("TotalSaleAmount")
                         .HasColumnType("numeric");
@@ -270,7 +263,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartProduct", b =>
                 {
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Cart", "Cart")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -284,13 +277,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.Navigation("Cart");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
-                {
-                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Cart", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CartId");
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Rating", b =>

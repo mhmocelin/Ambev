@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
+﻿using Ambev.DeveloperEvaluation.Application.Sales.Common;
+using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSales;
@@ -15,6 +16,7 @@ public class SalesProfile : Profile
     public SalesProfile()
     {
         CreateMap<CreateSaleRequest, CreateSaleCommand>();
+        CreateMap<Common.BaseSaleProduct, BaseSaleProduct>();
         CreateMap<CreateSaleResult, CreateSaleResponse>();
 
         CreateMap<GetSaleResult, GetSaleResponse>();

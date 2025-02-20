@@ -14,4 +14,29 @@ public class Sale : BaseEntity
     public DateTime? SaleModified { get; set; }
     public DateTime? SaleCancelled { get; set; }
     public virtual ICollection<SaleProduct>? SaleProducts { get; set; }
+
+    public async Task Calculate()
+    {
+        foreach (var item in SaleProducts)
+        {
+            item.Discounts = calculateDiscount(item.Quantity);
+            item.UnitPrice = item.Product.Price;
+            item.TotalAmount = item.Quantity * (item.UnitPrice - (item.UnitPrice * (item.Discounts / 100)));
+        }
+
+        this.TotalSaleAmount = SaleProducts.Sum(x => x.TotalAmount);
+    }
+
+    private decimal calculateDiscount(int quantity)
+    {
+        switch (quantity)
+        {
+            case >= 10:
+                return 20;
+            case >= 4:
+                return 10;
+            default:
+                return 0;
+        }
+    }
 }

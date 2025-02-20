@@ -6,11 +6,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ambev.DeveloperEvaluation.ORM.Migrations
 {
     /// <inheritdoc />
-    public partial class TablesConfigure : Migration
+    public partial class Begin : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateSequence<int>(
+                name: "SaleSequence");
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "CreatedAt",
+                table: "Users",
+                type: "timestamp with time zone",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "UpdatedAt",
+                table: "Users",
+                type: "timestamp with time zone",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "Cart",
                 columns: table => new
@@ -31,12 +47,29 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "product",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Category = table.Column<string>(type: "text", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_product", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "sale",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     SaleNumber = table.Column<int>(type: "integer", nullable: false),
-                    Customer = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TotalSaleAmount = table.Column<decimal>(type: "numeric", nullable: false),
                     Branch = table.Column<string>(type: "text", nullable: false),
@@ -51,26 +84,29 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "product",
+                name: "cartproduct",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    Category = table.Column<string>(type: "text", nullable: false),
-                    Image = table.Column<string>(type: "text", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    CartId = table.Column<Guid>(type: "uuid", nullable: true)
+                    CartId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_product", x => x.Id);
+                    table.PrimaryKey("PK_cartproduct", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_product_Cart_CartId",
+                        name: "FK_cartproduct_Cart_CartId",
                         column: x => x.CartId,
                         principalTable: "Cart",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_cartproduct_product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,8 +115,8 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     Rate = table.Column<decimal>(type: "numeric", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Count = table.Column<int>(type: "integer", nullable: false)
+                    Count = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,14 +164,20 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_product_CartId",
-                table: "product",
+                name: "IX_cartproduct_CartId",
+                table: "cartproduct",
                 column: "CartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cartproduct_ProductId",
+                table: "cartproduct",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_rating_ProductId",
                 table: "rating",
-                column: "ProductId");
+                column: "ProductId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_saleproduct_ProductId",
@@ -152,10 +194,16 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "cartproduct");
+
+            migrationBuilder.DropTable(
                 name: "rating");
 
             migrationBuilder.DropTable(
                 name: "saleproduct");
+
+            migrationBuilder.DropTable(
+                name: "Cart");
 
             migrationBuilder.DropTable(
                 name: "product");
@@ -163,8 +211,16 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
             migrationBuilder.DropTable(
                 name: "sale");
 
-            migrationBuilder.DropTable(
-                name: "Cart");
+            migrationBuilder.DropColumn(
+                name: "CreatedAt",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "UpdatedAt",
+                table: "Users");
+
+            migrationBuilder.DropSequence(
+                name: "SaleSequence");
         }
     }
 }

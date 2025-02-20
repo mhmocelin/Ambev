@@ -1,6 +1,8 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
+﻿using MediatR;
 
-public class GetSaleCommand
+namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
+
+public class GetSaleCommand : IRequest<GetSaleResult>
 {
     public Guid Id { get; set; }
     public GetSaleCommand(Guid id) => this.Id = id;

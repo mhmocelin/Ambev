@@ -1,8 +1,7 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
-using MediatR;
+﻿using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSales;
 
-public class GetSalesCommand : IRequest<GetSalesResult>
+public class GetSalesCommand : IRequest<IEnumerable<GetSalesResult>>
 {
 }

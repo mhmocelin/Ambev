@@ -1,10 +1,11 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 
-public class UpdateSaleHandler
+public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleResult>
 {
     private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;

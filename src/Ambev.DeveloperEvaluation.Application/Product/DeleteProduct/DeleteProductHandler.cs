@@ -1,7 +1,6 @@
-﻿using MediatR;
-using AutoMapper;
+﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
 using FluentValidation;
-using Ambev.DeveloperEvaluation.Domain.Repositories;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Product.DeleteProduct;
 

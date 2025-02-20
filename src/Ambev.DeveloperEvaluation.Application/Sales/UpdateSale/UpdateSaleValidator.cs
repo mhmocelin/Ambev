@@ -8,7 +8,6 @@ internal class UpdateSaleValidator : AbstractValidator<UpdateSaleCommand>
     {
         RuleFor(p => p.UserId).NotEmpty();
         RuleFor(p => p.Date).NotEmpty();
-        RuleFor(p => p.TotalSaleAmount).NotEmpty();
         RuleFor(p => p.Branch).NotEmpty();
         RuleFor(p => p.SaleProducts).NotEmpty();
     }

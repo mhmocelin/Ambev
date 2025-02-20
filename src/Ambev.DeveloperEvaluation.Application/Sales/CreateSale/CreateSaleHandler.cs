@@ -1,18 +1,21 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
-public class CreateSaleHandler
+public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
 {
+    private readonly IProductRepository _productRepository;
     private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;
 
-    public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper)
+    public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper, IProductRepository productRepository)
     {
         _saleRepository = saleRepository;
         _mapper = mapper;
+        _productRepository = productRepository;
     }
 
     public async Task<CreateSaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
@@ -20,13 +23,19 @@ public class CreateSaleHandler
         var validator = new CreateSaleValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
-        if (validationResult.IsValid)
+        if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var Sale = _mapper.Map<Domain.Entities.Sale>(command);
+        var sale = _mapper.Map<Domain.Entities.Sale>(command);
 
-        var createdSale = await _saleRepository.CreateAsync(Sale, cancellationToken);
-        var result = _mapper.Map<CreateSaleResult>(createdSale);
-        return result;
+        foreach (var item in sale.SaleProducts)
+        {
+            item.Product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
+        }
+
+        await sale.Calculate();
+
+        var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
+        return _mapper.Map<CreateSaleResult>(createdSale);
     }
 }

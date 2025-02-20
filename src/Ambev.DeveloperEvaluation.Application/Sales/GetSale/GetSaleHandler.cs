@@ -1,9 +1,10 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 
-public class GetSaleHandler
+public class GetSaleHandler : IRequestHandler<GetSaleCommand, GetSaleResult>
 {
     private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;

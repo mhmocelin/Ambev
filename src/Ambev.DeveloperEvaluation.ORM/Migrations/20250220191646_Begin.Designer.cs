@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.DeveloperEvaluation.ORM.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20250219180336_Salenumbersequence")]
-    partial class Salenumbersequence
+    [Migration("20250220191646_Begin")]
+    partial class Begin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,15 +47,37 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.ToTable("Cart", (string)null);
                 });
 
-            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartProduct", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid?>("CartId")
+                    b.Property<Guid>("CartId")
                         .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("cartproduct", (string)null);
+                });
+
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -80,8 +102,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CartId");
 
                     b.ToTable("product", (string)null);
                 });
@@ -137,9 +157,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("SaleNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValueSql("NEXT VALUE FOR SaleSequence");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("TotalSaleAmount")
                         .HasColumnType("numeric");
@@ -245,11 +263,23 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartProduct", b =>
                 {
-                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Cart", null)
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Cart", "Cart")
                         .WithMany("Products")
-                        .HasForeignKey("CartId");
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Rating", b =>

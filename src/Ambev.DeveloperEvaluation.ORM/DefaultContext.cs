@@ -23,8 +23,8 @@ public class DefaultContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        modelBuilder.ApplyConfiguration(new SaleConfiguration());
-        modelBuilder.HasSequence<int>("SaleSequence").StartsAt(1).IncrementsBy(1);
+        //modelBuilder.Entity<Sale>().Property(p => p.SaleNumber).ValueGeneratedOnAdd();
+        modelBuilder.ApplyConfiguration(new SaleConfiguration()).HasSequence<int>("SaleSequence").StartsAt(1).IncrementsBy(1);
         base.OnModelCreating(modelBuilder);
     }
 }
