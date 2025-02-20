@@ -1,8 +1,6 @@
-﻿using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
-using Ambev.DeveloperEvaluation.Application.Product.CreateProduct;
+﻿using Ambev.DeveloperEvaluation.Application.Product.CreateProduct;
 using Ambev.DeveloperEvaluation.Application.Product.DeleteProduct;
 using Ambev.DeveloperEvaluation.Application.Product.GetProduct;
-using Ambev.DeveloperEvaluation.Application.Product.GetProducts;
 using Ambev.DeveloperEvaluation.Application.Product.UpdateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
@@ -10,7 +8,6 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.PutProduct;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
@@ -21,7 +18,7 @@ public class ProductsProfile : Profile
         CreateMap<CreateProductRequest, CreateProductCommand>();
         CreateMap<BaseRating, CreateRatingCommand>();
         CreateMap<CreateProductResult, CreateProductResponse>();
-        CreateMap<CreateRatingCommand, BaseRating > ();
+        CreateMap<CreateRatingResult, BaseRating>();
 
         CreateMap<Guid, GetProductCommand>()
            .ConstructUsing(id => new GetProductCommand(id));

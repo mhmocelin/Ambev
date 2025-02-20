@@ -10,4 +10,5 @@ public class GetSalesResult : BaseSale
     public DateTime? SaleCreated { get; set; }
     public DateTime? SaleModified { get; set; }
     public DateTime? SaleCancelled { get; set; }
+    public List<GetSalesProductResult> SaleProducts { get; set; }
 }

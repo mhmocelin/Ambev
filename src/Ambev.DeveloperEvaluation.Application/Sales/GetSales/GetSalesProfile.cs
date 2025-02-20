@@ -8,6 +8,6 @@ public class GetSalesProfile : Profile
     public GetSalesProfile()
     {
         CreateMap<Domain.Entities.Sale, GetSalesResult>();
-        CreateMap<Domain.Entities.SaleProduct, BaseSaleProduct>();
+        CreateMap<Domain.Entities.SaleProduct, GetSalesProductResult>();
     }
 }

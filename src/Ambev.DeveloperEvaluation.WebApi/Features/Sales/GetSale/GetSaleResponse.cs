@@ -11,5 +11,5 @@ public class GetSaleResponse : BaseSale
     public DateTime? SaleCreated { get; set; }
     public DateTime? SaleModified { get; set; }
     public DateTime? SaleCancelled { get; set; }
-    public List<GetSaleProductResponse> SaleProducts { get; set; }
+    public IEnumerable<GetSaleProductResponse> SaleProducts { get; set; }
 }

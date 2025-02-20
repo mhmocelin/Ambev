@@ -15,7 +15,7 @@ public class Sale : BaseEntity
     public DateTime? SaleCancelled { get; set; }
     public virtual ICollection<SaleProduct>? SaleProducts { get; set; }
 
-    public async Task Calculate()
+    public async Task CalculateAsync()
     {
         foreach (var item in SaleProducts)
         {

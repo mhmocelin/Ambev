@@ -77,11 +77,11 @@ public class SalesController : BaseController
     [ProducesResponseType(typeof(PaginatedResponse<GetSalesResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetSales([FromQuery] int page, int size, [FromRoute] CancellationToken cancellationToken)
+    public async Task<IActionResult> GetSales([FromRoute] CancellationToken cancellationToken, [FromQuery] int page, int size = 10)
     {
         var command = new GetSalesCommand();
         var response = await _mediator.Send(command, cancellationToken);
-        var result = _mapper.Map<IQueryable<GetSalesResponse>>(response);
+        var result = _mapper.Map<IEnumerable<GetSalesResponse>>(response);
 
         var paginated = await PaginatedList<GetSalesResponse>.CreateAsync(result, page, size);
 

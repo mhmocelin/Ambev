@@ -33,7 +33,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
             item.Product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
         }
 
-        await sale.Calculate();
+        await sale.CalculateAsync();
 
         var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
         return _mapper.Map<CreateSaleResult>(createdSale);

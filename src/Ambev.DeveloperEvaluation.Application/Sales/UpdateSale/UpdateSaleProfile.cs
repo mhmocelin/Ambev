@@ -10,6 +10,6 @@ public class UpdateSaleProfile : Profile
         CreateMap<UpdateSaleCommand, Domain.Entities.Sale>();
         CreateMap<BaseSaleProduct, Domain.Entities.SaleProduct>();
         CreateMap<Domain.Entities.Sale, UpdateSaleResult>();
-        CreateMap<Domain.Entities.SaleProduct, BaseSaleProduct>();
+        CreateMap<Domain.Entities.SaleProduct, UpdateSaleProductResult>();
     }
 }

@@ -7,7 +7,7 @@ public class GetSaleProfile : Profile
 {
     public GetSaleProfile()
     {
-        CreateMap<Domain.Entities.SaleProduct, BaseSaleProduct>();
+        CreateMap<Domain.Entities.SaleProduct, GetSaleProductResult>();
         CreateMap<Domain.Entities.Sale, GetSaleResult>();
     }
 }

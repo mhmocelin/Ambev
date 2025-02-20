@@ -43,10 +43,10 @@ public class SaleRepository : ISaleRepository
 
         if (entity != null)
         {
-            entity.SaleModified = DateTime.Now;
+            entity.SaleModified = DateTime.UtcNow;
             entity.Branch = sale.Branch;
             entity.TotalSaleAmount = sale.TotalSaleAmount;
-            entity.UserId = sale.UserId;
+            entity.SaleProducts = sale.SaleProducts;
         }
 
         await _context.SaveChangesAsync(cancellationToken);

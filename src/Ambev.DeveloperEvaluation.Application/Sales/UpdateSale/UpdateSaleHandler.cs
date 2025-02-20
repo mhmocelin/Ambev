@@ -8,12 +8,14 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleResult>
 {
     private readonly ISaleRepository _saleRepository;
+    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
 
-    public UpdateSaleHandler(ISaleRepository saleRepository, IMapper mapper)
+    public UpdateSaleHandler(ISaleRepository saleRepository, IMapper mapper, IProductRepository productRepository)
     {
         _saleRepository = saleRepository;
         _mapper = mapper;
+        _productRepository = productRepository;
     }
 
     public async Task<UpdateSaleResult> Handle(UpdateSaleCommand command, CancellationToken cancellationToken)
@@ -29,6 +31,12 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleRe
             throw new KeyNotFoundException($"Sale not found");
 
         var saleToUpdate = _mapper.Map<Domain.Entities.Sale>(command);
+
+        foreach (var item in saleToUpdate.SaleProducts)
+        {
+            item.Product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
+        }
+        await saleToUpdate.CalculateAsync();
 
         var saleUpdated = await _saleRepository.UpdateAsync(saleToUpdate, cancellationToken);
 
