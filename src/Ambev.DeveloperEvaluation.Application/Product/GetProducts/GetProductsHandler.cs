@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Product.GetProduct;
 
-public class GetProductsHandler : IRequestHandler<GetProductsCommand, GetProductsResult>
+public class GetProductsHandler : IRequestHandler<GetProductsCommand, IEnumerable<GetProductsResult>>
 {
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
@@ -16,13 +16,13 @@ public class GetProductsHandler : IRequestHandler<GetProductsCommand, GetProduct
         _mapper = mapper;
     }
 
-    public async Task<GetProductsResult> Handle(GetProductsCommand command, CancellationToken cancellationToken)
+    public async Task<IEnumerable<GetProductsResult>> Handle(GetProductsCommand command, CancellationToken cancellationToken)
     {
         var products = await _productRepository.GetAllAsync(cancellationToken);
-        if (products == null) 
+        if (!products.Any()) 
             throw new KeyNotFoundException($"no registered product");
 
-        var result = _mapper.Map<GetProductsResult>(products.AsQueryable());
+        var result = _mapper.Map<IEnumerable<GetProductsResult>>(products);
         return result;
     }
 }

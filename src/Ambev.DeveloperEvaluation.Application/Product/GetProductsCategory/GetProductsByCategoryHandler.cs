@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Product.GetProduct;
 
-public class GetProductsByCategoryHandler : IRequestHandler<GetProductsByCategoryCommand, IQueryable<GetProductsByCategoryResult>>
+public class GetProductsByCategoryHandler : IRequestHandler<GetProductsByCategoryCommand, IEnumerable<GetProductsByCategoryResult>>
 {
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class GetProductsByCategoryHandler : IRequestHandler<GetProductsByCategor
         _mapper = mapper;
     }
 
-    public async Task<IQueryable<GetProductsByCategoryResult>> Handle(GetProductsByCategoryCommand command, CancellationToken cancellationToken)
+    public async Task<IEnumerable<GetProductsByCategoryResult>> Handle(GetProductsByCategoryCommand command, CancellationToken cancellationToken)
     {
         var validator = new GetProductsByCategoryValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
@@ -26,10 +26,10 @@ public class GetProductsByCategoryHandler : IRequestHandler<GetProductsByCategor
             throw new ValidationException(validationResult.Errors);
 
         var product = await _productRepository.GetByCategoryAsync(command.Category, cancellationToken);
-        if (product == null) 
+        if (!product.Any()) 
             throw new KeyNotFoundException($"no product in the category");
 
-        var result = _mapper.Map<IQueryable<GetProductsByCategoryResult>>(product.AsQueryable());
+        var result = _mapper.Map<IEnumerable<GetProductsByCategoryResult>>(product.AsQueryable());
         return result;
     }
 }

@@ -77,11 +77,11 @@ public class ProductsController : BaseController
     [ProducesResponseType(typeof(PaginatedResponse<GetProductsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetProducts([FromQuery] int page, int size, [FromRoute] CancellationToken cancellationToken)
+    public async Task<IActionResult> GetProducts([FromRoute] CancellationToken cancellationToken, [FromQuery] int page, int size = 10)
     {
         var command = new GetProductsCommand();
         var response = await _mediator.Send(command, cancellationToken);
-        var result = _mapper.Map<IQueryable<GetProductsResponse>>(response);
+        var result = _mapper.Map<IEnumerable<GetProductsResponse>>(response);
 
         var paginated = await PaginatedList<GetProductsResponse>.CreateAsync(result, page, size);
 
@@ -148,7 +148,7 @@ public class ProductsController : BaseController
     [ProducesResponseType(typeof(PaginatedResponse<GetProductsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetProductsByCategory([FromQuery] int page, int size, [FromRoute] string category, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetProductsByCategory([FromRoute] string category, CancellationToken cancellationToken, [FromQuery] int page, int size = 10)
     {
         var command = new GetProductsByCategoryCommand(category);
         var response = await _mediator.Send(command, cancellationToken);

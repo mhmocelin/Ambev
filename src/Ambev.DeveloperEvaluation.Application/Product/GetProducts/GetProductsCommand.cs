@@ -3,6 +3,6 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Product.GetProducts;
 
-public class GetProductsCommand : IRequest<GetProductsResult>
+public class GetProductsCommand : IRequest<IEnumerable<GetProductsResult>>
 {
 }

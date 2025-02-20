@@ -26,8 +26,10 @@ public class ProductsProfile : Profile
         CreateMap<Guid, GetProductCommand>()
            .ConstructUsing(id => new GetProductCommand(id));
         CreateMap<GetProductResult, GetProductResponse>();
+        CreateMap<GetRatingResult, BaseRating>();
 
         CreateMap<GetProductsResult, GetProductsResponse>();
+        CreateMap<GetRatingsResult, BaseRating>();
 
         CreateMap<PutProductRequest, UpdateProductCommand>();
         CreateMap<UpdateProductResult, PutProductResponse>();
