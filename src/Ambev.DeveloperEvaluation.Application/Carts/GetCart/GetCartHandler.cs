@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.GetCart;
 
-public class GetCartHandler : IRequestHandler<GetCartCommand, GetCartResult>
+public class GetCartHandler : IRequestHandler<GetCartCommand, IEnumerable<GetCartResult>>
 {
     private readonly ICartRepository _cartRepository;
     private readonly IMapper _mapper;
@@ -15,14 +15,14 @@ public class GetCartHandler : IRequestHandler<GetCartCommand, GetCartResult>
         _mapper = mapper;
     }
 
-    public async Task<GetCartResult> Handle(GetCartCommand command, CancellationToken cancellationToken)
+    public async Task<IEnumerable<GetCartResult>> Handle(GetCartCommand command, CancellationToken cancellationToken)
     {
         var carts = await _cartRepository.GetAllAsync(cancellationToken);
         
         if (!carts.Any()) 
             throw new KeyNotFoundException($"No registered cart");
 
-        var result = _mapper.Map<GetCartResult>(carts);
+        var result = _mapper.Map<IEnumerable<GetCartResult>>(carts);
         return result;
     }
 }

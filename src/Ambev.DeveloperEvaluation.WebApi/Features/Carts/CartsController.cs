@@ -11,6 +11,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCartById;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCart;
+using Ambev.DeveloperEvaluation.Application.Carts.GetCartById;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts;
 
@@ -31,11 +32,11 @@ public class CartsController : BaseController
     [ProducesResponseType(typeof(PaginatedResponse<GetCartResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetCarts([FromQuery] int page, int size, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetCarts(CancellationToken cancellationToken, [FromQuery] int page, int size = 10)
     {
         var command = new GetCartCommand();
         var response = await _mediator.Send(command, cancellationToken);
-        var result = _mapper.Map<IQueryable<GetCartResponse>>(response);
+        var result = _mapper.Map<IEnumerable<GetCartResponse>>(response);
 
         var paginated = await PaginatedList<GetCartResponse>.CreateAsync(result, page, size);
 
@@ -86,7 +87,7 @@ public class CartsController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<GetCartCommand>(request.Id);
+        var command = _mapper.Map<GetCartByIdCommand>(request.Id);
         var response = await _mediator.Send(command, cancellationToken);
 
         return Ok(new ApiResponseWithData<GetCartByIdResponse>

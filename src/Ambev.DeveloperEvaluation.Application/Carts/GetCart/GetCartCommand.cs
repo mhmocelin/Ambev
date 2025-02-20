@@ -2,7 +2,7 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.GetCart;
 
-public class GetCartCommand : IRequest<GetCartResult>
+public class GetCartCommand : IRequest<IEnumerable<GetCartResult>>
 {
 
 }

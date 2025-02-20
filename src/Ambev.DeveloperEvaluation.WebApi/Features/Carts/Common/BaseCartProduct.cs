@@ -3,5 +3,5 @@
 public class BaseCartProduct
 {
     public Guid ProductId { get; set; }
-    public int Qunatity { get; set; }
+    public int Quantity { get; set; }
 }

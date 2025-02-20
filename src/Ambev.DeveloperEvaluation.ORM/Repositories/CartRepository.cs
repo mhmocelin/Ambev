@@ -11,12 +11,12 @@ public class CartRepository : ICartRepository
     public CartRepository(DefaultContext context) => _context = context;
 
     public async Task<Cart?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-        => await _context.Carts.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+        => await _context.Carts.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
     public async Task<IEnumerable<Cart>> GetAllAsync(CancellationToken cancellationToken)
-        => await _context.Carts.ToListAsync();
+        => await _context.Carts.Include(c => c.Products).ToListAsync();
 
     public async Task<Cart?> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
-        => await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
+        => await _context.Carts.Include(c => c.Products).FirstOrDefaultAsync(c => c.UserId == userId);
 
     public async Task<Cart> CreateAsync(Cart cart, CancellationToken cancellationToken)
     {
@@ -37,7 +37,7 @@ public class CartRepository : ICartRepository
 
     public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var cart = await _context.Carts.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+        var cart = await _context.Carts.Include(c => c.Products).FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
 
         if (cart == null)
             return await Task.FromResult(false);

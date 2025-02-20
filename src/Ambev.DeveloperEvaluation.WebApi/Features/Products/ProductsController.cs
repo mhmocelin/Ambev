@@ -152,7 +152,7 @@ public class ProductsController : BaseController
     {
         var command = new GetProductsByCategoryCommand(category);
         var response = await _mediator.Send(command, cancellationToken);
-        var result = _mapper.Map<IQueryable<GetProductsResponse>>(response);
+        var result = _mapper.Map<IEnumerable<GetProductsResponse>>(response);
 
         var paginated = await PaginatedList<GetProductsResponse>.CreateAsync(result, page, size);
 
