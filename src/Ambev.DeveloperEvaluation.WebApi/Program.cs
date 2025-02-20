@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Application;
+using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
@@ -8,8 +9,10 @@ using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Rebus.Config;
 using Serilog;
+using System.Reflection;
 
 namespace Ambev.DeveloperEvaluation.WebApi;
 
@@ -45,10 +48,8 @@ public class Program
 
             builder.Services.AddMediatR(cfg =>
             {
-                cfg.RegisterServicesFromAssemblies(
-                    typeof(ApplicationLayer).Assembly,
-                    typeof(Program).Assembly
-                );
+                cfg.RegisterServicesFromAssemblies(typeof(ApplicationLayer).Assembly, typeof(Program).Assembly);
+
             });
 
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
@@ -71,14 +72,14 @@ public class Program
 
             app.MapControllers();
 
-            builder.Services.AddRebus(configure =>
-            {
-                var configurer = configure
-                    .Logging(l => l.ColoredConsole())
-                    .Transport(t => t.UseRabbitMqAsOneWayClient("amqp://guest:guest@localhost:15672"));
+            //builder.Services.AddRebus(configure =>
+            //{
+            //    var configurer = configure
+            //        .Logging(l => l.ColoredConsole())
+            //        .Transport(t => t.UseRabbitMqAsOneWayClient("amqp://guest:guest@localhost:15672"));
 
-                return configurer;
-            });
+            //    return configurer;
+            //});
 
             app.Run();
         }

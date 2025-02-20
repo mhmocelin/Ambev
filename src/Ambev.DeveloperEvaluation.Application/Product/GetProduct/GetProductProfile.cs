@@ -9,5 +9,6 @@ public class GetProductProfile : Profile
     {
         CreateMap<GetProductsCommand, Domain.Entities.Product>();
         CreateMap<Domain.Entities.Product, GetProductsResult>();
+        CreateMap<Domain.Entities.Rating, GetRatingResult>();
     }
 }

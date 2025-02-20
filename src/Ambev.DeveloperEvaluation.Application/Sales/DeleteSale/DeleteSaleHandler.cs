@@ -1,7 +1,7 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+﻿using MediatR;
 using AutoMapper;
 using FluentValidation;
-using MediatR;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 
@@ -30,7 +30,6 @@ public class DeleteSaleHandler : IRequestHandler<DeleteSaleCommand, DeleteSaleRe
 
         await _SaleRepository.DeleteByIdAsync(command.Id, cancellationToken);
 
-        var result = new DeleteSaleResult() { message = "successful deleted" };
-        return result;
+        return new DeleteSaleResult() { message = "successful deleted" };
     }
 }

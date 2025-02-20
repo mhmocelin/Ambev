@@ -18,6 +18,10 @@ public class GetCartHandler : IRequestHandler<GetCartCommand, GetCartResult>
     public async Task<GetCartResult> Handle(GetCartCommand command, CancellationToken cancellationToken)
     {
         var carts = await _cartRepository.GetAllAsync(cancellationToken);
+        
+        if (!carts.Any()) 
+            throw new KeyNotFoundException($"No registered cart");
+
         var result = _mapper.Map<GetCartResult>(carts);
         return result;
     }

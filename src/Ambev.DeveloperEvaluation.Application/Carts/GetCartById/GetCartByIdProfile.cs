@@ -8,5 +8,6 @@ public class GetCartByIdProfile : Profile
     {
         CreateMap<GetCartByIdCommand, Domain.Entities.Cart>();
         CreateMap<Domain.Entities.Cart, GetCartByIdResult>();
+        CreateMap<Domain.Entities.CartProduct, GetCartByIdProductResult>();
     }
 }

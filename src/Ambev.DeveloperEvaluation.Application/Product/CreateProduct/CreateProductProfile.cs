@@ -8,5 +8,7 @@ public class CreateProductProfile : Profile
     {
         CreateMap<CreateProductCommand, Domain.Entities.Product>();
         CreateMap<Domain.Entities.Product, CreateProductResult>();
+        CreateMap<CreateRatingCommand, Domain.Entities.Rating>();
+        CreateMap<Domain.Entities.Rating, CreateRatingResult>();
     }
 }

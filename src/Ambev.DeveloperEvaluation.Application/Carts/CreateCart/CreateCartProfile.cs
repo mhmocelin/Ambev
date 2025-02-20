@@ -8,5 +8,7 @@ public class CreateCartProfile : Profile
     {
         CreateMap<CreateCartCommand, Domain.Entities.Cart>();
         CreateMap<Domain.Entities.Cart, CreateCartResult>();
+        CreateMap<CreateCartProductCommand, Domain.Entities.CartProduct>();
+        CreateMap<Domain.Entities.CartProduct, CreateCartProductResult>();
     }
 }

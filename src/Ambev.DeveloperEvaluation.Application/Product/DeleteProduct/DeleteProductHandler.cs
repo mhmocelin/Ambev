@@ -8,13 +8,9 @@ namespace Ambev.DeveloperEvaluation.Application.Product.DeleteProduct;
 public  class DeleteProductHandler : IRequestHandler<DeleteProductCommand, DeleteProductResult>
 {
     private readonly IProductRepository _productRepository;
-    private readonly IMapper _mapper;
 
-    public DeleteProductHandler(IProductRepository productRepository, IMapper mapper)
-    {
-        _productRepository = productRepository;
-        _mapper = mapper;
-    }
+    public DeleteProductHandler(IProductRepository productRepository)
+        => _productRepository = productRepository;
 
     public async Task<DeleteProductResult> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
     {

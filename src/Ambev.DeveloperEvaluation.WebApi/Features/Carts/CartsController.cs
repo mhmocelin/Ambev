@@ -31,7 +31,7 @@ public class CartsController : BaseController
     [ProducesResponseType(typeof(PaginatedResponse<GetCartResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetCarts([FromQuery] int page, int size, [FromRoute] string category, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetCarts([FromQuery] int page, int size, CancellationToken cancellationToken)
     {
         var command = new GetCartCommand();
         var response = await _mediator.Send(command, cancellationToken);
@@ -101,7 +101,7 @@ public class CartsController : BaseController
     [ProducesResponseType(typeof(ApiResponseWithData<PutCartResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetCart([FromRoute] Guid id, [FromBody] PutCartRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> PutCart([FromRoute] Guid id, [FromBody] PutCartRequest request, CancellationToken cancellationToken)
     {
         var validator = new PutCartRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
