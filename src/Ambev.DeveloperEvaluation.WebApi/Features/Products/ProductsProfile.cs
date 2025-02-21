@@ -29,7 +29,9 @@ public class ProductsProfile : Profile
         CreateMap<GetRatingsResult, BaseRating>();
 
         CreateMap<PutProductRequest, UpdateProductCommand>();
+        CreateMap<BaseRating, UpdateRatingCommand>();
         CreateMap<UpdateProductResult, PutProductResponse>();
+        CreateMap<UpdateRatingResult, BaseRating>();
 
         CreateMap<Guid, DeleteProductCommand>()
           .ConstructUsing(id => new DeleteProductCommand(id));

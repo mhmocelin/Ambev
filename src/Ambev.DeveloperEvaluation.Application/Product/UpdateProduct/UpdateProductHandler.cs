@@ -30,7 +30,9 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
 
         var productToUpdate = _mapper.Map<Domain.Entities.Product>(command);
 
-        var productUpdated = await _productRepository.UpdateAsync(productToUpdate, cancellationToken);
+        product.Update(productToUpdate);
+        
+        var productUpdated = await _productRepository.UpdateAsync(product, cancellationToken);
 
         var result = _mapper.Map<UpdateProductResult>(productUpdated);
         return result;

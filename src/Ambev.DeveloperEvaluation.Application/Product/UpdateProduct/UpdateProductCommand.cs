@@ -10,6 +10,5 @@ public class UpdateProductCommand : IRequest<UpdateProductResult>
     public string Description { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
-    public int Quantity { get; set; }
     public virtual UpdateRatingCommand Rating { get; set; }
 }

@@ -11,4 +11,15 @@ public class Product : BaseEntity
     public string Image { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public virtual Rating? Rating { get; set; }
+
+    public void Update(Product product)
+    {
+        this.Title = product.Title;
+        this.Price = product.Price;
+        this.Description = product.Description;
+        this.Category = product.Category;
+        this.Image = product.Image;
+        this.Quantity = product.Quantity;
+        this.Rating = product.Rating;
+    }
 }

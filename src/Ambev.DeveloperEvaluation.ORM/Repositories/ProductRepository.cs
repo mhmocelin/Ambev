@@ -33,21 +33,10 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<Product> UpdateAsync(Product product, CancellationToken cancellationToken)
         {
-            var entity = await _context.Products.Include(c => c.Rating).FirstOrDefaultAsync(p => p.Id == product.Id);
-
-            if (entity != null)
-            {
-                entity.Title = product.Title;
-                entity.Description = product.Description;
-                entity.Category = product.Category;
-                entity.Quantity = product.Quantity;
-                entity.Price = product.Price;
-                entity.Image = product.Image;
-                entity.Rating = product.Rating;
-            }
-
+            _context.Products.Update(product);
+            _context.Ratings.Update(product.Rating);
             await _context.SaveChangesAsync(cancellationToken);
-            return entity;
+            return product;
         }
 
         public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default)
