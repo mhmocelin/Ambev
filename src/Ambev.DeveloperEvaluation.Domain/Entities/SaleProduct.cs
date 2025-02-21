@@ -17,4 +17,24 @@ public class SaleProduct : BaseEntity
 
     [ForeignKey(nameof(SaleId))]
     public virtual Sale Sale { get; set; }
+
+    internal void Calculate(SaleProduct item)
+    {
+        this.Discounts = calculateDiscount(item.Quantity);
+        this.UnitPrice = item.Product.Price;
+        this.TotalAmount = item.Quantity * (item.UnitPrice - (item.UnitPrice * (item.Discounts / 100)));
+    }
+
+    private decimal calculateDiscount(int quantity)
+    {
+        switch (quantity)
+        {
+            case >= 10:
+                return 20;
+            case >= 4:
+                return 10;
+            default:
+                return 0;
+        }
+    }
 }

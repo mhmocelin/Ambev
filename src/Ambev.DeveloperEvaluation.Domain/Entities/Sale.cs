@@ -19,9 +19,7 @@ public class Sale : BaseEntity
     {
         foreach (var item in SaleProducts)
         {
-            item.Discounts = calculateDiscount(item.Quantity);
-            item.UnitPrice = item.Product.Price;
-            item.TotalAmount = item.Quantity * (item.UnitPrice - (item.UnitPrice * (item.Discounts / 100)));
+            item.Calculate(item);
         }
 
         this.TotalSaleAmount = SaleProducts.Sum(x => x.TotalAmount);
@@ -32,18 +30,5 @@ public class Sale : BaseEntity
         this.SaleModified = DateTime.UtcNow;
         this.Branch = sale.Branch;
         this.SaleProducts = sale.SaleProducts;
-    }
-
-    private decimal calculateDiscount(int quantity)
-    {
-        switch (quantity)
-        {
-            case >= 10:
-                return 20;
-            case >= 4:
-                return 10;
-            default:
-                return 0;
-        }
     }
 }
