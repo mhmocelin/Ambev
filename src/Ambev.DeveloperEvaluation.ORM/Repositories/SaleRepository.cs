@@ -39,17 +39,8 @@ public class SaleRepository : ISaleRepository
 
     public async Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken)
     {
-        var entity = await _context.Sales.Include(c => c.SaleProducts).FirstOrDefaultAsync(p => p.Id == sale.Id);
-
-        if (entity != null)
-        {
-            entity.SaleModified = DateTime.UtcNow;
-            entity.Branch = sale.Branch;
-            entity.TotalSaleAmount = sale.TotalSaleAmount;
-            entity.SaleProducts = sale.SaleProducts;
-        }
-
+        _context.Sales.Update(sale);
         await _context.SaveChangesAsync(cancellationToken);
-        return entity;
+        return sale;
     }
 }

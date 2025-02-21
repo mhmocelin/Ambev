@@ -27,6 +27,13 @@ public class Sale : BaseEntity
         this.TotalSaleAmount = SaleProducts.Sum(x => x.TotalAmount);
     }
 
+    public void Update(Sale sale)
+    {
+        this.SaleModified = DateTime.UtcNow;
+        this.Branch = sale.Branch;
+        this.SaleProducts = sale.SaleProducts;
+    }
+
     private decimal calculateDiscount(int quantity)
     {
         switch (quantity)

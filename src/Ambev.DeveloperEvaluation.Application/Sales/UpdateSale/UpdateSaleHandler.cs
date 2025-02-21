@@ -37,8 +37,9 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleRe
             item.Product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
         }
         await saleToUpdate.CalculateAsync();
+        sale.Update(saleToUpdate);
 
-        var saleUpdated = await _saleRepository.UpdateAsync(saleToUpdate, cancellationToken);
+        var saleUpdated = await _saleRepository.UpdateAsync(sale, cancellationToken);
 
         var result = _mapper.Map<UpdateSaleResult>(saleUpdated);
         return result;
