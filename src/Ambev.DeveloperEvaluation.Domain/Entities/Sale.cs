@@ -15,16 +15,6 @@ public class Sale : BaseEntity
     public DateTime? SaleCancelled { get; set; }
     public virtual ICollection<SaleProduct>? SaleProducts { get; set; }
 
-    public async Task CalculateAsync()
-    {
-        foreach (var item in SaleProducts)
-        {
-            item.Calculate(item);
-        }
-
-        this.TotalSaleAmount = SaleProducts.Sum(x => x.TotalAmount);
-    }
-
     public void Update(Sale sale)
     {
         this.SaleModified = DateTime.UtcNow;
