@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Services;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -7,15 +8,15 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 
 public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleResult>
 {
+    private readonly ISaleCalculateService _saleCalculateService;
     private readonly ISaleRepository _saleRepository;
-    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
 
-    public UpdateSaleHandler(ISaleRepository saleRepository, IMapper mapper, IProductRepository productRepository)
+    public UpdateSaleHandler(ISaleRepository saleRepository, IMapper mapper, ISaleCalculateService saleCalculateService)
     {
         _saleRepository = saleRepository;
-        _mapper = mapper;
-        _productRepository = productRepository;
+        _mapper = mapper; 
+        _saleCalculateService = saleCalculateService;
     }
 
     public async Task<UpdateSaleResult> Handle(UpdateSaleCommand command, CancellationToken cancellationToken)
@@ -32,12 +33,7 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleRe
 
         var saleToUpdate = _mapper.Map<Domain.Entities.Sale>(command);
 
-        foreach (var item in saleToUpdate.SaleProducts)
-        {
-            item.Product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
-        }
-        await saleToUpdate.CalculateAsync();
-        sale.Update(saleToUpdate);
+        await _saleCalculateService.CalculateSaleTotalAsync(sale, cancellationToken);
 
         var saleUpdated = await _saleRepository.UpdateAsync(sale, cancellationToken);
 

@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Services;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -7,15 +8,15 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
 public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
 {
-    private readonly IProductRepository _productRepository;
+    private readonly ISaleCalculateService _saleCalculateService;
     private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;
 
-    public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper, IProductRepository productRepository)
+    public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper, ISaleCalculateService saleCalculateService)
     {
         _saleRepository = saleRepository;
         _mapper = mapper;
-        _productRepository = productRepository;
+        _saleCalculateService = saleCalculateService;
     }
 
     public async Task<CreateSaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
@@ -28,12 +29,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
 
         var sale = _mapper.Map<Domain.Entities.Sale>(command);
 
-        foreach (var item in sale.SaleProducts)
-        {
-            item.Product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
-        }
-
-        await sale.CalculateAsync();
+        await _saleCalculateService.CalculateSaleTotalAsync(sale, cancellationToken);
 
         var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
         return _mapper.Map<CreateSaleResult>(createdSale);
